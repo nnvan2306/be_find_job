@@ -1,41 +1,39 @@
 import { DataTypes, Sequelize } from 'sequelize';
-import { CompanyInstance } from '~/types/interface';
+import { CVInstance } from '~/types/interface';
 
 export default (sequelize: Sequelize) => {
-    const Company = sequelize.define<CompanyInstance>(
-        'Company',
+    const CV = sequelize.define<CVInstance>(
+        'CV',
         {
             id: {
                 type: DataTypes.INTEGER,
                 primaryKey: true,
                 autoIncrement: true,
             },
-            owner_id: {
+            user_id: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
             },
-            name: {
+            title: {
                 type: DataTypes.STRING(255),
-                allowNull: false,
             },
-            description: {
+            required_skills: {
                 type: DataTypes.TEXT,
             },
-            website: {
+            file_url: {
                 type: DataTypes.STRING(255),
             },
-            logo_url: {
-                type: DataTypes.STRING(255),
+            is_active: {
+                type: DataTypes.BOOLEAN,
+                defaultValue: true,
             },
-            location: {
-                type: DataTypes.STRING(255),
-            },
-            verified: {
+            is_shared: {
                 type: DataTypes.BOOLEAN,
                 defaultValue: false,
             },
-            employeeCount: {
-                type: DataTypes.STRING(255),
+            createdAt: {
+                type: DataTypes.DATE,
+                defaultValue: DataTypes.NOW,
             },
         },
         {
@@ -45,5 +43,5 @@ export default (sequelize: Sequelize) => {
         },
     );
 
-    return Company;
+    return CV;
 };

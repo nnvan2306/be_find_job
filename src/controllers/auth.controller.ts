@@ -1,13 +1,16 @@
 import { HttpStatusCode } from 'axios';
 import { Request, Response } from 'express';
+import db from '~/configs/connectDb.config';
 import { comparePassword, endCodePassword } from '~/helpers/bcrypt';
 import sendResponse from '~/helpers/response';
-import db from '~/models';
+
+const ROLES = ['applicant', 'recruiter', 'company', 'admin'] as const;
+type Role = (typeof ROLES)[number];
 
 class AuthController {
     async registerUser(req: Request, res: Response) {
         try {
-            const checkUserExits = await db.user.findOne({
+            const checkUserExits = await db.User.findOne({
                 where: {
                     email: req.body.email,
                 },
@@ -20,11 +23,12 @@ class AuthController {
             }
 
             const passwordHash = endCodePassword(req.body.password);
-            const userCreate = await db.user.create({
+            const userCreate = await db.User.create({
                 email: req.body.email,
                 password: passwordHash,
-                username: req.body.username,
-                role: db.ROLES[0],
+                full_name: req.body.username,
+                role: ROLES[0] as Role,
+                is_active: true,
             });
             const userSave = await userCreate.save();
 
@@ -38,7 +42,7 @@ class AuthController {
 
     async loginUser(req: Request, res: Response) {
         try {
-            const checkUserExits = await db.user.findOne({
+            const checkUserExits = await db.User.findOne({
                 where: {
                     email: req.body.email,
                 },

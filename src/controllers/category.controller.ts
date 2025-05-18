@@ -1,13 +1,13 @@
 import { HttpStatusCode } from 'axios';
 import { Request, Response } from 'express';
+import db from '~/configs/connectDb.config';
 import sendResponse from '~/helpers/response';
-import db from '~/models';
 
 class CategoryController {
     async getCategoryById(req: Request, res: Response) {
         try {
             const { id } = req.params;
-            const category = await db.category.findByPk(id);
+            const category = await db.Category.findByPk(id);
             if (!category) {
                 return res
                     .status(HttpStatusCode.NotFound)
@@ -23,10 +23,11 @@ class CategoryController {
 
     async getAllCategory(req: Request, res: Response) {
         try {
-            const categories = await db.category.findAll({
+            const categories = await db.Category.findAll({
                 include: [
                     {
-                        model: db.vocabulary,
+                        model: db.JobPost,
+                        as: 'jobPosts',
                     },
                 ],
             });
@@ -41,7 +42,7 @@ class CategoryController {
     async createCategory(req: Request, res: Response) {
         try {
             const { title } = req.body;
-            const category = await db.category.create({ title });
+            const category = await db.Category.create({ name: title });
             return res
                 .status(HttpStatusCode.Ok)
                 .json(sendResponse(HttpStatusCode.Ok, 'Create Category Success', category));
@@ -56,7 +57,7 @@ class CategoryController {
         try {
             const { id } = req.params;
             const { title } = req.body;
-            const category = await db.category.update({ title }, { where: { id } });
+            const category = await db.Category.update({ name: title }, { where: { id } });
             return res
                 .status(HttpStatusCode.Ok)
                 .json(sendResponse(HttpStatusCode.Ok, 'Update Category Success', category));
@@ -70,7 +71,7 @@ class CategoryController {
     async deleteCategory(req: Request, res: Response) {
         try {
             const { id } = req.params;
-            const category = await db.category.destroy({ where: { id } });
+            const category = await db.Category.destroy({ where: { id } });
             return res
                 .status(HttpStatusCode.Ok)
                 .json(sendResponse(HttpStatusCode.Ok, 'Delete Category Success', category));

@@ -1,0 +1,432 @@
+{
+    "info": {
+        "name": "Find Job API",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Auth",
+            "item": [
+                {
+                    "name": "Login",
+                    "request": {
+                        "method": "POST",
+                        "url": "{{base_url}}/api/v1/auth/login",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"email\": \"user@example.com\",\n    \"password\": \"password123\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Register",
+                    "request": {
+                        "method": "POST",
+                        "url": "{{base_url}}/api/v1/auth/register",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"email\": \"newuser@example.com\",\n    \"password\": \"password123\",\n    \"full_name\": \"New User\",\n    \"phone\": \"0123456789\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Users",
+            "item": [
+                {
+                    "name": "Get All Users",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{base_url}}/api/v1/users"
+                    }
+                },
+                {
+                    "name": "Get User by ID",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{base_url}}/api/v1/users/:id"
+                    }
+                },
+                {
+                    "name": "Get Users by Company ID",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{base_url}}/api/v1/users/company/:companyId"
+                    }
+                },
+                {
+                    "name": "Create User",
+                    "request": {
+                        "method": "POST",
+                        "url": "{{base_url}}/api/v1/users",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"email\": \"user@example.com\",\n    \"password\": \"password123\",\n    \"full_name\": \"Test User\",\n    \"phone\": \"0123456789\",\n    \"company_id\": 1\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Update User",
+                    "request": {
+                        "method": "PUT",
+                        "url": "{{base_url}}/api/v1/users/:id",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"full_name\": \"Updated Name\",\n    \"phone\": \"9876543210\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Delete User",
+                    "request": {
+                        "method": "DELETE",
+                        "url": "{{base_url}}/api/v1/users/:id"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Companies",
+            "item": [
+                {
+                    "name": "Get All Companies",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{base_url}}/api/v1/companies"
+                    }
+                },
+                {
+                    "name": "Get Company by ID",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{base_url}}/api/v1/companies/:id"
+                    }
+                },
+                {
+                    "name": "Create Company",
+                    "request": {
+                        "method": "POST",
+                        "url": "{{base_url}}/api/v1/companies",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Test Company\",\n    \"description\": \"A test company\",\n    \"address\": \"123 Test St\",\n    \"phone\": \"0123456789\",\n    \"email\": \"company@example.com\",\n    \"website\": \"https://example.com\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Update Company",
+                    "request": {
+                        "method": "PUT",
+                        "url": "{{base_url}}/api/v1/companies/:id",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Updated Company\",\n    \"description\": \"Updated description\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Delete Company",
+                    "request": {
+                        "method": "DELETE",
+                        "url": "{{base_url}}/api/v1/companies/:id"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Job Posts",
+            "item": [
+                {
+                    "name": "Get All Job Posts",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{base_url}}/api/v1/job-posts"
+                    }
+                },
+                {
+                    "name": "Get Job Post by ID",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{base_url}}/api/v1/job-posts/:id"
+                    }
+                },
+                {
+                    "name": "Create Job Post",
+                    "request": {
+                        "method": "POST",
+                        "url": "{{base_url}}/api/v1/job-posts",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"title\": \"Software Engineer\",\n    \"description\": \"Looking for a software engineer\",\n    \"requirements\": \"5+ years experience\",\n    \"salary\": \"50000-70000\",\n    \"location\": \"Remote\",\n    \"company_id\": 1,\n    \"job_type\": \"full-time\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Update Job Post",
+                    "request": {
+                        "method": "PUT",
+                        "url": "{{base_url}}/api/v1/job-posts/:id",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"title\": \"Senior Software Engineer\",\n    \"salary\": \"70000-90000\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Delete Job Post",
+                    "request": {
+                        "method": "DELETE",
+                        "url": "{{base_url}}/api/v1/job-posts/:id"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "CVs",
+            "item": [
+                {
+                    "name": "Get All CVs",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{base_url}}/api/v1/cvs"
+                    }
+                },
+                {
+                    "name": "Get CV by ID",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{base_url}}/api/v1/cvs/:id"
+                    }
+                },
+                {
+                    "name": "Create CV",
+                    "request": {
+                        "method": "POST",
+                        "url": "{{base_url}}/api/v1/cvs",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"user_id\": 1,\n    \"title\": \"Software Engineer CV\",\n    \"content\": \"My professional experience...\",\n    \"skills\": [\"JavaScript\", \"Node.js\", \"React\"],\n    \"experience\": \"5 years\",\n    \"education\": \"Bachelor's in Computer Science\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Update CV",
+                    "request": {
+                        "method": "PUT",
+                        "url": "{{base_url}}/api/v1/cvs/:id",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"title\": \"Updated CV Title\",\n    \"skills\": [\"JavaScript\", \"Node.js\", \"React\", \"TypeScript\"]\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Delete CV",
+                    "request": {
+                        "method": "DELETE",
+                        "url": "{{base_url}}/api/v1/cvs/:id"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Saved Jobs",
+            "item": [
+                {
+                    "name": "Get All Saved Jobs",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{base_url}}/api/v1/saved-jobs"
+                    }
+                },
+                {
+                    "name": "Get Saved Jobs by User ID",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{base_url}}/api/v1/saved-jobs/user/:userId"
+                    }
+                },
+                {
+                    "name": "Save Job",
+                    "request": {
+                        "method": "POST",
+                        "url": "{{base_url}}/api/v1/saved-jobs",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"user_id\": 1,\n    \"job_post_id\": 1\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Unsave Job",
+                    "request": {
+                        "method": "DELETE",
+                        "url": "{{base_url}}/api/v1/saved-jobs/:user_id/:job_post_id"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Job Categories",
+            "item": [
+                {
+                    "name": "Get All Job Categories",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{base_url}}/api/v1/job-categories"
+                    }
+                },
+                {
+                    "name": "Get Categories by Job ID",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{base_url}}/api/v1/job-categories/job/:jobId"
+                    }
+                },
+                {
+                    "name": "Add Category to Job",
+                    "request": {
+                        "method": "POST",
+                        "url": "{{base_url}}/api/v1/job-categories",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"job_post_id\": 1,\n    \"category_id\": 1\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Remove Category from Job",
+                    "request": {
+                        "method": "DELETE",
+                        "url": "{{base_url}}/api/v1/job-categories/:job_post_id/:category_id"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Reports",
+            "item": [
+                {
+                    "name": "Get All Reports",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{base_url}}/api/v1/reports"
+                    }
+                },
+                {
+                    "name": "Get Report by ID",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{base_url}}/api/v1/reports/:id"
+                    }
+                },
+                {
+                    "name": "Create Report",
+                    "request": {
+                        "method": "POST",
+                        "url": "{{base_url}}/api/v1/reports",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"user_id\": 1,\n    \"job_post_id\": 1,\n    \"reason\": \"Inappropriate content\",\n    \"description\": \"This job post contains inappropriate content\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Update Report",
+                    "request": {
+                        "method": "PUT",
+                        "url": "{{base_url}}/api/v1/reports/:id",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"status\": \"resolved\",\n    \"admin_notes\": \"Issue has been addressed\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "Delete Report",
+                    "request": {
+                        "method": "DELETE",
+                        "url": "{{base_url}}/api/v1/reports/:id"
+                    }
+                }
+            ]
+        }
+    ],
+    "variable": [
+        {
+            "key": "base_url",
+            "value": "http://localhost:8080"
+        }
+    ]
+} 
