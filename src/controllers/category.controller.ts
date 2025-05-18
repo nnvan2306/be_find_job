@@ -41,8 +41,8 @@ class CategoryController {
 
     async createCategory(req: Request, res: Response) {
         try {
-            const { title } = req.body;
-            const category = await db.Category.create({ name: title });
+            const { name } = req.body;
+            const category = await db.Category.create({ name: name });
             return res
                 .status(HttpStatusCode.Ok)
                 .json(sendResponse(HttpStatusCode.Ok, 'Create Category Success', category));
@@ -56,8 +56,8 @@ class CategoryController {
     async updateCategory(req: Request, res: Response) {
         try {
             const { id } = req.params;
-            const { title } = req.body;
-            const category = await db.Category.update({ name: title }, { where: { id } });
+            const { name } = req.body;
+            const category = await db.Category.update({ name: name }, { where: { id } });
             return res
                 .status(HttpStatusCode.Ok)
                 .json(sendResponse(HttpStatusCode.Ok, 'Update Category Success', category));
