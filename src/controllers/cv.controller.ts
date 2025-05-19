@@ -7,7 +7,7 @@ import { Op } from 'sequelize';
 class CVController {
     async getAllCVs(req: Request, res: Response) {
         try {
-            const { search, user_id } = req.query;
+            const { search, user_id, is_shared } = req.query;
 
             const whereClause: any = {};
 
@@ -20,6 +20,10 @@ class CVController {
             if (user_id) {
                 whereClause.user_id = user_id;
             }
+            if (is_shared === 'true') {
+                whereClause.is_shared = 1;
+            }
+
             const cvs = await db.CV.findAll({
                 where: whereClause,
                 include: [
