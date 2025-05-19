@@ -14,6 +14,7 @@ import initialReportRoute from './routes/report.routes';
 import initialSavedJobRoute from './routes/saved_job.routes';
 import initialUploadRoute from './routes/upload.routes';
 import initialUserRoute from './routes/user.routes';
+import initialApplicationRoute from './routes/application.routes';
 
 const app: Application = express();
 const PORT: number = parseInt(process.env.PORT || '8080');
@@ -37,6 +38,7 @@ initialReportRoute(app);
 initialSavedJobRoute(app);
 initialJobCategoryRoute(app);
 initialJobPostRoute(app);
+initialApplicationRoute(app);
 
 app.listen(PORT, () => {
     console.log('App Start Successfully With Port: ' + PORT);

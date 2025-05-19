@@ -85,6 +85,8 @@ interface ApplicationAttributes {
     user_id: number;
     job_post_id: number;
     cv_id: number;
+    company_id: number;
+    recruiter_id: number;
     status: 'pending' | 'accepted' | 'rejected';
     submitted_at?: Date;
 }

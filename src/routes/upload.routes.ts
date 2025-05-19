@@ -25,18 +25,34 @@ export default function initialUploadRoute(app: Application) {
         }
     });
 
-    // route.get('/file/:filename', (req: Request, res: Response) => {
-    //     const { filename } = req.params;
-    //     const filePath = path.join(__dirname, '../upload', filename);
-
-    //     if (!fs.existsSync(filePath)) {
-    //         res.status(HttpStatusCode.NotFound).json(sendResponse(HttpStatusCode.NotFound, 'File not found', null));
-    //     } else {
-    //         res.sendFile(filePath);
-    //     }
-    // });
+    route.post('/single/pdf', uploadMulter.single('file'), (req: Request, res: Response) => {
+        if (!req.file) {
+            res.status(HttpStatusCode.BadRequest).json(
+                sendResponse(HttpStatusCode.BadRequest, 'File is required', null),
+            );
+        } else {
+            res.status(HttpStatusCode.Ok).json(
+                sendResponse(
+                    HttpStatusCode.Ok,
+                    'Ok',
+                    `http://localhost:${process.env.PORT}/api/v1/upload/file/pdf/${req.file.filename}`,
+                ),
+            );
+        }
+    });
 
     route.get('/file/:filename', (req: Request, res: Response) => {
+        const { filename } = req.params;
+        const filePath = path.join(__dirname, '../upload', filename);
+
+        if (!fs.existsSync(filePath)) {
+            res.status(HttpStatusCode.NotFound).json(sendResponse(HttpStatusCode.NotFound, 'File not found', null));
+        } else {
+            res.sendFile(filePath);
+        }
+    });
+
+    route.get('/file/pdf/:filename', (req: Request, res: Response) => {
         const { filename } = req.params;
         const filePath = path.join(__dirname, '../upload', filename);
 

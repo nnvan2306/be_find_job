@@ -14,6 +14,14 @@ export default (sequelize: Sequelize) => {
                 type: DataTypes.INTEGER,
                 allowNull: false,
             },
+            recruiter_id: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+            },
+            company_id: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+            },
             job_post_id: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
