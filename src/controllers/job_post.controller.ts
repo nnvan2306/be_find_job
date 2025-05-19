@@ -2,18 +2,52 @@ import { HttpStatusCode } from 'axios';
 import { Request, Response } from 'express';
 import db from '~/configs/connectDb.config';
 import sendResponse from '~/helpers/response';
+import { Op } from 'sequelize';
 
 export const jobPostController = {
     // Get all job posts
+    // getAllJobPosts: async (req: Request, res: Response) => {
+    //     try {
+    //         const jobPosts = await db.JobPost.findAll({
+    //             include: [
+    //                 { model: db.Company, as: 'company' },
+    //                 { model: db.User, as: 'recruiter' },
+    //                 { model: db.Category, as: 'category' },
+    //             ],
+    //         });
+    //         return res.status(HttpStatusCode.Ok).json(sendResponse(HttpStatusCode.Ok, 'Success', jobPosts));
+    //     } catch (error) {
+    //         return res
+    //             .status(HttpStatusCode.BadGateway)
+    //             .json(sendResponse(HttpStatusCode.BadGateway, `${error}`, null));
+    //     }
+    // },
+
     getAllJobPosts: async (req: Request, res: Response) => {
         try {
+            const { search, category_id } = req.query;
+
+            const whereClause: any = {};
+
+            if (search) {
+                whereClause.required_skills = {
+                    [Op.like]: `%${search}%`,
+                };
+            }
+
+            if (category_id) {
+                whereClause.category_id = category_id;
+            }
+
             const jobPosts = await db.JobPost.findAll({
+                where: whereClause,
                 include: [
                     { model: db.Company, as: 'company' },
                     { model: db.User, as: 'recruiter' },
-                    { model: db.Category, as: 'categories' },
+                    { model: db.Category, as: 'category' },
                 ],
             });
+
             return res.status(HttpStatusCode.Ok).json(sendResponse(HttpStatusCode.Ok, 'Success', jobPosts));
         } catch (error) {
             return res
@@ -29,7 +63,7 @@ export const jobPostController = {
                 include: [
                     { model: db.Company, as: 'company' },
                     { model: db.User, as: 'recruiter' },
-                    { model: db.Category, as: 'categories' },
+                    { model: db.Category, as: 'category' },
                     { model: db.Application, as: 'applications' },
                 ],
             });

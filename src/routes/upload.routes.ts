@@ -25,15 +25,31 @@ export default function initialUploadRoute(app: Application) {
         }
     });
 
+    // route.get('/file/:filename', (req: Request, res: Response) => {
+    //     const { filename } = req.params;
+    //     const filePath = path.join(__dirname, '../upload', filename);
+
+    //     if (!fs.existsSync(filePath)) {
+    //         res.status(HttpStatusCode.NotFound).json(sendResponse(HttpStatusCode.NotFound, 'File not found', null));
+    //     } else {
+    //         res.sendFile(filePath);
+    //     }
+    // });
+
     route.get('/file/:filename', (req: Request, res: Response) => {
         const { filename } = req.params;
         const filePath = path.join(__dirname, '../upload', filename);
 
         if (!fs.existsSync(filePath)) {
-            res.status(HttpStatusCode.NotFound).json(sendResponse(HttpStatusCode.NotFound, 'File not found', null));
-        } else {
-            res.sendFile(filePath);
+            res.status(404).json(sendResponse(404, 'File not found', null));
+            return;
         }
+
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', `inline; filename="${filename}"`);
+
+        const fileStream = fs.createReadStream(filePath);
+        fileStream.pipe(res);
     });
 
     app.use('/api/v1/upload', route);

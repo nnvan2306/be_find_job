@@ -2,12 +2,23 @@ import { HttpStatusCode } from 'axios';
 import { Request, Response } from 'express';
 import db from '~/configs/connectDb.config';
 import sendResponse from '~/helpers/response';
+import { Op } from 'sequelize';
 
 export const companyController = {
     // Get all companies
     getAllCompanies: async (req: Request, res: Response) => {
         try {
+            const { search } = req.query;
+
+            const whereClause: any = {};
+
+            if (search) {
+                whereClause.name = {
+                    [Op.like]: `%${search}%`,
+                };
+            }
             const companies = await db.Company.findAll({
+                where: whereClause,
                 include: [{ model: db.User, as: 'owner' }],
             });
             return res.status(HttpStatusCode.Ok).json(sendResponse(HttpStatusCode.Ok, 'Success', companies));
@@ -44,6 +55,7 @@ export const companyController = {
     createCompany: async (req: Request, res: Response) => {
         try {
             const company = await db.Company.create(req.body);
+            await db.User.update({ company_id: company.id }, { where: { id: req.body.owner_id } });
             return res.status(HttpStatusCode.Ok).json(sendResponse(HttpStatusCode.Ok, 'Success', company));
         } catch (error) {
             return res

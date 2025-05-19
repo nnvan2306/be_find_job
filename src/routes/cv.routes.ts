@@ -10,6 +10,8 @@ export default function initialCVRoute(app: Application) {
     route.post('/', cvController.createCV);
     route.put('/:id', cvController.updateCV);
     route.delete('/:id', cvController.deleteCV);
+    route.put('/set-main/:id', cvController.setMain);
+    route.put('/set-share/:id', cvController.setShare);
 
     app.use('/api/v1/cvs', route);
 }

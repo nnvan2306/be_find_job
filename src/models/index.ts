@@ -38,7 +38,9 @@ export default (sequelize: Sequelize) => {
     JobPost.belongsTo(User, { foreignKey: 'recruiter_id', as: 'recruiter' });
     JobPost.hasMany(Application, { foreignKey: 'job_post_id', as: 'applications' });
     JobPost.belongsToMany(User, { through: SavedJob, foreignKey: 'job_post_id', as: 'savedByUsers' });
-    JobPost.belongsToMany(Category, { through: JobCategory, foreignKey: 'job_post_id', as: 'categories' });
+    // JobPost.belongsToMany(Category, { through: JobCategory, foreignKey: 'job_post_id', as: 'categories' });
+    // JobPost.belongsTo(Category, { foreignKey: 'category_id', as: 'jobPosts' });
+    JobPost.belongsTo(Category, { foreignKey: 'category_id', as: 'category' });
 
     // CV associations
     CV.belongsTo(User, { foreignKey: 'user_id', as: 'user' });
@@ -53,7 +55,9 @@ export default (sequelize: Sequelize) => {
     Report.belongsTo(User, { foreignKey: 'user_id', as: 'user' });
 
     // Category associations
-    Category.belongsToMany(JobPost, { through: JobCategory, foreignKey: 'category_id', as: 'jobPosts' });
+    // Category.belongsToMany(JobPost, { through: JobCategory, foreignKey: 'category_id', as: 'jobPosts' });
+    // Category.hasMany(JobPost, { foreignKey: 'category_id', as: 'category' });
+    Category.hasMany(JobPost, { foreignKey: 'category_id', as: 'jobPosts' });
 
     return {
         User,

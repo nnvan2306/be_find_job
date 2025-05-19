@@ -76,8 +76,9 @@ export const userController = {
             const userCreate = await db.User.create({
                 email: req.body.email,
                 password: passwordHash,
-                full_name: req.body.username,
+                full_name: req.body.full_name,
                 role: 'recruiter',
+                company_id: req.body.company_id,
                 is_active: true,
             });
             const userSave = await userCreate.save();

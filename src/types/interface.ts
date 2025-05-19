@@ -50,7 +50,8 @@ interface JobPostAttributes {
     description?: string;
     location?: string;
     salary_range?: string;
-    job_type?: 'full_time' | 'part_time' | 'internship' | 'freelance';
+    job_type?: string;
+    category_id: number;
     required_skills?: string;
     status: 'active' | 'closed';
     createdAt?: Date;

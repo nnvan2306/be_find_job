@@ -24,12 +24,12 @@ class CategoryController {
     async getAllCategory(req: Request, res: Response) {
         try {
             const categories = await db.Category.findAll({
-                include: [
-                    {
-                        model: db.JobPost,
-                        as: 'jobPosts',
-                    },
-                ],
+                // include: [
+                //     {
+                //         model: db.JobPost,
+                //         as: 'jobPosts',
+                //     },
+                // ],
             });
             return res.status(HttpStatusCode.Ok).json(sendResponse(HttpStatusCode.Ok, 'List Category', categories));
         } catch (error) {

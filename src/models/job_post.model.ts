@@ -32,7 +32,11 @@ export default (sequelize: Sequelize) => {
                 type: DataTypes.STRING(100),
             },
             job_type: {
-                type: DataTypes.ENUM('full_time', 'part_time', 'internship', 'freelance'),
+                type: DataTypes.STRING(100),
+            },
+            category_id: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
             },
             required_skills: {
                 type: DataTypes.TEXT,
