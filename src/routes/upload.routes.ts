@@ -25,7 +25,7 @@ export default function initialUploadRoute(app: Application) {
         }
     });
 
-    route.post('/single/pdf', uploadMulter.single('file'), (req: Request, res: Response) => {
+    route.post('/pdf/single', uploadMulter.single('file'), (req: Request, res: Response) => {
         if (!req.file) {
             res.status(HttpStatusCode.BadRequest).json(
                 sendResponse(HttpStatusCode.BadRequest, 'File is required', null),
@@ -35,7 +35,7 @@ export default function initialUploadRoute(app: Application) {
                 sendResponse(
                     HttpStatusCode.Ok,
                     'Ok',
-                    `http://localhost:${process.env.PORT}/api/v1/upload/file/pdf/${req.file.filename}`,
+                    `http://localhost:${process.env.PORT}/api/v1/upload/pdf/file/${req.file.filename}`,
                 ),
             );
         }
@@ -52,7 +52,7 @@ export default function initialUploadRoute(app: Application) {
         }
     });
 
-    route.get('/file/pdf/:filename', (req: Request, res: Response) => {
+    route.get('/pdf/file/:filename', (req: Request, res: Response) => {
         const { filename } = req.params;
         const filePath = path.join(__dirname, '../upload', filename);
 
