@@ -2,24 +2,50 @@ import { HttpStatusCode } from 'axios';
 import { Request, Response } from 'express';
 import db from '~/configs/connectDb.config';
 import sendResponse from '~/helpers/response';
+import natural from 'natural';
 
 export const applicationController = {
     // Get all applications
+    // getAllApplications: async (req: Request, res: Response) => {
+    //     try {
+    //         const { user_id, company_id, recruiter_id } = req.query;
+
+    //         const whereClause: any = {};
+
+    //         if (user_id) {
+    //             whereClause.user_id = user_id;
+    //         }
+    //         if (company_id) {
+    //             whereClause.company_id = company_id;
+    //         }
+    //         if (recruiter_id) {
+    //             whereClause.recruiter_id = recruiter_id;
+    //         }
+
+    //         const applications = await db.Application.findAll({
+    //             where: whereClause,
+    //             include: [
+    //                 { model: db.User, as: 'user' },
+    //                 { model: db.JobPost, as: 'jobPost' },
+    //                 { model: db.CV, as: 'cv' },
+    //             ],
+    //         });
+    //         return res.status(HttpStatusCode.Ok).json(sendResponse(HttpStatusCode.Ok, 'Success', applications));
+    //     } catch (error) {
+    //         return res
+    //             .status(HttpStatusCode.BadGateway)
+    //             .json(sendResponse(HttpStatusCode.BadGateway, `${error}`, null));
+    //     }
+    // },
+
     getAllApplications: async (req: Request, res: Response) => {
         try {
             const { user_id, company_id, recruiter_id } = req.query;
 
             const whereClause: any = {};
-
-            if (user_id) {
-                whereClause.user_id = user_id;
-            }
-            if (company_id) {
-                whereClause.company_id = company_id;
-            }
-            if (recruiter_id) {
-                whereClause.recruiter_id = recruiter_id;
-            }
+            if (user_id) whereClause.user_id = user_id;
+            if (company_id) whereClause.company_id = company_id;
+            if (recruiter_id) whereClause.recruiter_id = recruiter_id;
 
             const applications = await db.Application.findAll({
                 where: whereClause,
@@ -29,7 +55,20 @@ export const applicationController = {
                     { model: db.CV, as: 'cv' },
                 ],
             });
-            return res.status(HttpStatusCode.Ok).json(sendResponse(HttpStatusCode.Ok, 'Success', applications));
+
+            // ✅ Tính điểm tương đồng (nature) cho từng application
+            const enrichedApplications = applications.map((app) => {
+                const cvSkills = app.cv?.required_skills || '';
+                const jobSkills = app.jobPost?.required_skills || '';
+
+                const similarity = natural.JaroWinklerDistance(cvSkills, jobSkills);
+                return {
+                    ...app.toJSON(),
+                    nature: Number((similarity * 100).toFixed(2)),
+                };
+            });
+
+            return res.status(HttpStatusCode.Ok).json(sendResponse(HttpStatusCode.Ok, 'Success', enrichedApplications));
         } catch (error) {
             return res
                 .status(HttpStatusCode.BadGateway)
