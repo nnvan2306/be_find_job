@@ -51,6 +51,9 @@ export default (sequelize: Sequelize) => {
             position: {
                 type: DataTypes.STRING(100),
             },
+            code: {
+                type: DataTypes.STRING(100),
+            },
         },
         {
             timestamps: true,
