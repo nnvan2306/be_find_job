@@ -5,7 +5,7 @@ import dbConfig from './db.config';
 const sequelize = new Sequelize(dbConfig.DB_NAME, dbConfig.USER_NAME, dbConfig.PASSWORD, {
     host: dbConfig.HOST,
     dialect: dbConfig.DIALECT,
-    logging: true,
+    logging: false,
 });
 
 const db = initModels(sequelize);
