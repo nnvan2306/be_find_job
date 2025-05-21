@@ -8,7 +8,7 @@ export const companyController = {
     // Get all companies
     getAllCompanies: async (req: Request, res: Response) => {
         try {
-            const { search } = req.query;
+            const { search, verified } = req.query;
 
             const whereClause: any = {};
 
@@ -17,6 +17,10 @@ export const companyController = {
                     [Op.like]: `%${search}%`,
                 };
             }
+            if (verified) {
+                whereClause.verified = true;
+            }
+            console.log(whereClause);
             const companies = await db.Company.findAll({
                 where: whereClause,
                 include: [{ model: db.User, as: 'owner' }],
